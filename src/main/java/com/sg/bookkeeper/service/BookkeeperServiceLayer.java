@@ -47,7 +47,7 @@ public class BookkeeperServiceLayer implements BookkeeperService {
         // Check if book exists already
         for (Book bk : books)
             if (bk.getTitle().equals(book.getTitle()) 
-                    || bk.getBookAuthorName().equals(book.getBookAuthorName()))
+                    && bk.getBookAuthorName().equals(book.getBookAuthorName()))
                 return null;
         
         return dao.addBook(book);
@@ -96,7 +96,7 @@ public class BookkeeperServiceLayer implements BookkeeperService {
     public void updateBook(Book book) {
         if (book == null)
             return;
-        
+
         dao.updateBook(book);
     }
 

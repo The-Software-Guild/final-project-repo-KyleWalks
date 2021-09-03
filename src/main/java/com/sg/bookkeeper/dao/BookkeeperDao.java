@@ -21,9 +21,9 @@ public interface BookkeeperDao {
     Book addBook(Book book);
     
     Author getAuthorById(int authorId);
-    
+        
     Book getBookById(int bookId);
-    
+        
     List<Author> getAllAuthors();
     
     List<Book> getAllBooks();

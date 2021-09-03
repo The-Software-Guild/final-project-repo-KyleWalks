@@ -63,7 +63,7 @@ public class BookkeeperInMemoryDao implements BookkeeperDao {
                 .findFirst()
                 .orElse(null);
     }
-
+    
     @Override
     public List<Author> getAllAuthors() {
         return new ArrayList<>(authors);

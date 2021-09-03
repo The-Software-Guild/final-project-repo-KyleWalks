@@ -5,7 +5,6 @@
  */
 package com.sg.bookkeeper.dto;
 
-import java.time.LocalDate;
 import java.util.Objects;
 
 /**
@@ -15,7 +14,7 @@ import java.util.Objects;
 public class Author {
     private int authorId;
     private String authorName;
-    private LocalDate birthdate;
+    private String birthdate;
     private String authorLink;
     private String bio;
     private String alternateNames;
@@ -36,11 +35,11 @@ public class Author {
         this.authorName = authorName;
     }
 
-    public LocalDate getBirthdate() {
+    public String getBirthdate() {
         return birthdate;
     }
 
-    public void setBirthdate(LocalDate birthdate) {
+    public void setBirthdate(String birthdate) {
         this.birthdate = birthdate;
     }
 

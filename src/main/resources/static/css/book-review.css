@@ -1,0 +1,25 @@
+p {
+	font-size: 125%;
+}
+
+label {
+	font-size: 150%;
+}
+
+h2 {
+	margin-top: 20px;
+}
+
+h3 {
+	margin-bottom: 30px;
+}
+
+textarea {
+	width: 100%;
+}
+
+#submitReview {
+	width: 100%;
+	margin: 10px 10px 10px 10px;
+	font-size: 120%;
+}

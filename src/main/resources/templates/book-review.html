@@ -10,6 +10,7 @@
 
     <!-- Custom CSS -->
     <link rel="stylesheet" type="text/css" href="css/main.css">
+    <link rel="stylesheet" type="text/css" href="css/book-review.css">
 
     <title>Book Keeper</title>
 
@@ -39,47 +40,49 @@
     <!-- Main Body of Page -->
     <div class="container">
 
-      <!-- Book Table -->
       <center>
-        <div id="bookTable" class="container">
-
-          <center><h2 id="tableTitle">Books</h2></center>
-
-          <table class="table table-hover table-striped">
-
-            <thead id="tableHeader">
-              <tr>
-                <th style="display: none;"></th>
-                <th>Title</th>
-                <th>Author</th>
-                <th></th>
-                <th></th>
-              </tr>
-            </thead>
-
-            <tbody id="contentRows">
-              <tr id="row" th:each="book : ${books}">
-                <td id="id" th:text="${book.bookId}" style="display: none;"></td>
-                <td id="title" th:text="${book.title}"></td>
-                <td id="author" th:text="${book.bookAuthorName}"></td>
-                <td><button type="button" class="btn btn-primary" onclick="reviewBook($(this))">Review</button></td>
-                <td><button type="button" class="btn btn-danger" onclick="deleteBook($(this))">Delete</button></td>
-              </tr>
-            </tbody>
-
-          </table>
-
-        </div>
-
+        <h2 th:text="${book.title}"></h2>
+        <h3 th:text="'By ' + ${book.bookAuthorName}"></h3>
       </center>
+
+      <p th:text="${book.description}" class="text-center"></p>
+
+      <hr>
+
+      <center>
+        <textarea id="review" type="text" cols="30" rows="5" placeholder="Enter review here" th:value="${book.bookReview}"></textarea>
+      </center>
+
+      <hr>
+
+      <div>
+        <button id="submitReview" type="button" class="btn btn-primary" onclick="submitReview()">Submit Review</button>
+      </div>
+
+      <hr>
+
     <!-- End main body -->
+      <div class="container">
+        <!-- Hidden Form -->
+        <form id="bookForm" style="display: none;" data-th-action="@{submit-review}" th:object="${book}" method="POST">
+          <input id="bookId" type="text" th:field="*{bookId}" th:value="${book.bookId}"/>
+          <input id="descVal" type="text" th:field="*{description}" th:value="${book.description}"/>
+          <input id="titleVal" type="text" th:field="*{title}" th:value="${book.title}"/>
+          <input id="subjVal" type="text" th:field="*{subjects}" th:value="${book.subjects}"/>
+          <input id="subjPlacesVal" type="text" th:field="*{subjectPlaces}" th:value="${book.subjectPlaces}"/>
+          <input id="subjPeopleVal" type="text" th:field="*{subjectPeople}" th:value="${book.subjectPeople}"/>
+          <input id="subjTimesVal" type="text" th:field="*{subjectTimes}" th:value="${book.subjectTimes}"/>
+          <input id="authorVal" type="text" th:field="*{bookAuthorName}" th:value="${book.bookAuthorName}"/>
+          <input id="reviewVal" type="text" th:field="*{bookReview}" th:value="${book.bookReview}"/>
+        </form>
+      </div>
     </div>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-    <script type="text/javascript" src="js/book-list.js"></script>
+    <script type="text/javascript" src="js/book-review.js"></script>
   </body>
 
 </html>

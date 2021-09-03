@@ -24,10 +24,10 @@
           <a class="nav-link" href="#" onclick="location.href='/home'">HOME<span class="sr-only">(current)</span></a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#" onclick="location.href='/books-manage'">Books</a>
+          <a class="nav-link" href="#" onclick="location.href='/book-list'">Books</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#" onclick="location.href='/authors-manage'">Authors</a>
+          <a class="nav-link" href="#" onclick="location.href='/author-list'">Authors</a>
         </li>
       </ul>
     </div>
@@ -59,7 +59,7 @@
       <form data-field-books="" id="bookForm" action="#" data-th-action="@{/book-search}" method="POST">
         <div class="input-group">
             <div id="searchField" class="form-outline">
-              <input id="searchBook" type="search" class="form-control" placeholder="Search for a book. e.g. Lord of the Rings" />
+              <input id="searchBook" type="text" class="form-control" placeholder="Search for a book. e.g. Lord of the Rings" />
             </div>
             <button id="searchBtn" type="button" class="btn btn-primary form-control" onclick="getBook()">
               Search
@@ -91,7 +91,6 @@
                   <tr>
                       <th width="60%">Name</th>
                       <th style="display: none;">Key</th>
-                      <th width="5%">Add</th>
                       <th width="20%">View</th>
                   </tr>
               </thead>

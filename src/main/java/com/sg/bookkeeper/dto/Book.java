@@ -15,12 +15,12 @@ public class Book {
     private int bookId;
     private String description;
     private String title;
-    private String cover;
     private String subjects;
     private String subjectPlaces;
     private String subjectPeople;
     private String subjectTimes;
     private String bookAuthorName;
+    private String bookReview;
 
     public int getBookId() {
         return bookId;
@@ -44,14 +44,6 @@ public class Book {
 
     public void setTitle(String title) {
         this.title = title;
-    }
-
-    public String getCover() {
-        return cover;
-    }
-
-    public void setCover(String cover) {
-        this.cover = cover;
     }
 
     public String getSubjects() {
@@ -93,6 +85,14 @@ public class Book {
     public void setBookAuthorName(String bookAuthorName) {
         this.bookAuthorName = bookAuthorName;
     }
+
+    public String getBookReview() {
+        return bookReview;
+    }
+
+    public void setBookReview(String bookReview) {
+        this.bookReview = bookReview;
+    }
     
     @Override
     public int hashCode() {
@@ -100,7 +100,6 @@ public class Book {
         hash = 73 * hash + this.bookId;
         hash = 73 * hash + Objects.hashCode(this.description);
         hash = 73 * hash + Objects.hashCode(this.title);
-        hash = 73 * hash + Objects.hashCode(this.cover);
         hash = 73 * hash + Objects.hashCode(this.subjects);
         hash = 73 * hash + Objects.hashCode(this.subjectPlaces);
         hash = 73 * hash + Objects.hashCode(this.subjectPeople);
@@ -127,9 +126,6 @@ public class Book {
             return false;
         }
         if (!Objects.equals(this.title, other.title)) {
-            return false;
-        }
-        if (!Objects.equals(this.cover, other.cover)) {
             return false;
         }
         if (!Objects.equals(this.subjects, other.subjects)) {

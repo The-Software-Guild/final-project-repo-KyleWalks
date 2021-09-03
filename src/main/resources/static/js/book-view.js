@@ -42,7 +42,6 @@ function populatePageBook(bookJson) {
         
         document.getElementById("images").appendChild(img);
     }
-    $("#cover").val(bookJson["covers"][0]);
     
     // Title
     $("#bookTitle").html(bookJson["title"]);

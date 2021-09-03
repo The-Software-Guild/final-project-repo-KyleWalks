@@ -14,7 +14,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
-import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -47,7 +46,7 @@ public class BookkeeperDatabaseDao implements BookkeeperDao {
                 Statement.RETURN_GENERATED_KEYS);
 
             statement.setString(1, author.getAuthorName());
-            statement.setDate(2, Date.valueOf(author.getBirthdate()));
+            statement.setString(2, author.getBirthdate());
             statement.setString(3, author.getAuthorLink());
             statement.setString(4, author.getBio());
             statement.setString(5, author.getAlternateNames());
@@ -62,7 +61,7 @@ public class BookkeeperDatabaseDao implements BookkeeperDao {
 
     @Override
     public Book addBook(Book book) {
-        final String sql = "INSERT INTO book(description,title,cover,subjects,subjectPlaces,subjectPeople,subjectTimes,bookAuthorName) VALUES(?,?,?,?,?,?,?,?);";
+        final String sql = "INSERT INTO book(description,title,subjects,subjectPlaces,subjectPeople,subjectTimes,bookAuthorName,bookReview) VALUES(?,?,?,?,?,?,?,?);";
         GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();
 
         jdbcTemplate.update((Connection conn) -> {
@@ -73,18 +72,18 @@ public class BookkeeperDatabaseDao implements BookkeeperDao {
 
             statement.setString(1, book.getDescription());
             statement.setString(2, book.getTitle());
-            statement.setString(3, book.getCover());
-            statement.setString(4, book.getSubjects());
-            statement.setString(5, book.getSubjectPlaces());
-            statement.setString(6, book.getSubjectPeople());
-            statement.setString(7, book.getSubjectTimes());
-            statement.setString(8, book.getBookAuthorName());
+            statement.setString(3, book.getSubjects());
+            statement.setString(4, book.getSubjectPlaces());
+            statement.setString(5, book.getSubjectPeople());
+            statement.setString(6, book.getSubjectTimes());
+            statement.setString(7, book.getBookAuthorName());
+            statement.setString(8, book.getBookReview());
             return statement;
 
         }, keyHolder);
 
         book.setBookId(keyHolder.getKey().intValue());
-
+                
         return book;
     }
 
@@ -131,13 +130,26 @@ public class BookkeeperDatabaseDao implements BookkeeperDao {
     @Override
     public void updateBook(Book book) {
         final String sql = "UPDATE book "
-                + "SET description = ?, title = ?, cover = ?, subjects = ?, "
-                + "subjectPlaces = ?, subjectPeople = ?, subjectTimes = ?, bookAuthorName = ? "
+                + "SET description = ?, title = ?, subjects = ?, "
+                + "subjectPeople = ?, subjectPlaces = ?, subjectTimes = ?, "
+                + "bookAuthorName = ?, bookReview = ? "
                 + "WHERE bookId = ?;";
 
-        jdbcTemplate.update(sql, book.getDescription(), book.getTitle(), 
-                book.getSubjects(), book.getSubjectPlaces(), book.getSubjectPeople(), 
-                book.getSubjectTimes(), book.getBookId());
+        jdbcTemplate.update((Connection conn) -> {
+
+            PreparedStatement statement = conn.prepareStatement(sql);
+
+            statement.setString(1, book.getDescription());
+            statement.setString(2, book.getTitle());
+            statement.setString(3, book.getSubjects());
+            statement.setString(4, book.getSubjectPeople());
+            statement.setString(5, book.getSubjectPlaces());
+            statement.setString(6, book.getSubjectTimes());
+            statement.setString(7, book.getBookAuthorName());
+            statement.setString(8, book.getBookReview());
+            statement.setInt(9, book.getBookId());
+            return statement;
+        });
     }
 
     @Override
@@ -164,7 +176,7 @@ public class BookkeeperDatabaseDao implements BookkeeperDao {
             
             author.setAuthorId(rs.getInt("authorId"));
             author.setAuthorName(rs.getString("authorName"));
-            author.setBirthdate(rs.getDate("birthdate").toLocalDate());
+            author.setBirthdate(rs.getString("birthdate"));
             author.setAuthorLink(rs.getString("authorLink"));
             author.setBio(rs.getString("bio"));
             author.setAlternateNames(rs.getString("alternateNames"));
@@ -182,12 +194,12 @@ public class BookkeeperDatabaseDao implements BookkeeperDao {
             book.setBookId(rs.getInt("bookId"));
             book.setDescription(rs.getString("description"));
             book.setTitle(rs.getString("title"));
-            book.setCover(rs.getString("cover"));
             book.setSubjects(rs.getString("subjects"));
             book.setSubjectPlaces(rs.getString("subjectPlaces"));
             book.setSubjectPeople(rs.getString("subjectPeople"));
             book.setSubjectTimes(rs.getString("subjectTimes"));
             book.setBookAuthorName(rs.getString("bookAuthorName"));
+            book.setBookReview(rs.getString("bookReview"));
             
             return book;
         }
