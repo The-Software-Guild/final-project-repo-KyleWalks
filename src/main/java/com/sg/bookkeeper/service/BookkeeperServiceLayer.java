@@ -10,11 +10,13 @@ import com.sg.bookkeeper.dto.Author;
 import com.sg.bookkeeper.dto.Book;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
  *
  * @author Cosmos
  */
+@Service
 public class BookkeeperServiceLayer implements BookkeeperService {
     
     private final BookkeeperDao dao;
@@ -26,17 +28,35 @@ public class BookkeeperServiceLayer implements BookkeeperService {
     
     @Override
     public Author addAuthor(Author author) {
+        
+        List<Author> authors = dao.getAllAuthors();
+        
+        for (Author ath : authors)
+            if (ath.getAuthorName().equals(author.getAuthorName()) 
+                    || ath.getBirthdate().equals(author.getBirthdate()))
+                return null;
+        
         return dao.addAuthor(author);
     }
 
     @Override
     public Book addBook(Book book) {
+        
+        List<Book> books = dao.getAllBooks();
+        
+        // Check if book exists already
+        for (Book bk : books)
+            if (bk.getTitle().equals(book.getTitle()) 
+                    || bk.getBookAuthorName().equals(book.getBookAuthorName()))
+                return null;
+        
         return dao.addBook(book);
     }
 
     @Override
     public Author getAuthorById(int authorId) {
-        if (dao.getAllAuthors().size() < 1 || authorId == 0) {
+        List<Author> authors = dao.getAllAuthors();
+        if (authors.isEmpty() || authorId == 0) {
             return null;
         }
         Author author = dao.getAuthorById(authorId);

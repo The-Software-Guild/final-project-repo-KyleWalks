@@ -15,11 +15,12 @@ public class Book {
     private int bookId;
     private String description;
     private String title;
-    private String covers;
+    private String cover;
     private String subjects;
     private String subjectPlaces;
-    private String subjectsPeople;
+    private String subjectPeople;
     private String subjectTimes;
+    private String bookAuthorName;
 
     public int getBookId() {
         return bookId;
@@ -45,12 +46,12 @@ public class Book {
         this.title = title;
     }
 
-    public String getCovers() {
-        return covers;
+    public String getCover() {
+        return cover;
     }
 
-    public void setCovers(String covers) {
-        this.covers = covers;
+    public void setCover(String cover) {
+        this.cover = cover;
     }
 
     public String getSubjects() {
@@ -69,12 +70,12 @@ public class Book {
         this.subjectPlaces = subjectPlaces;
     }
 
-    public String getSubjectsPeople() {
-        return subjectsPeople;
+    public String getSubjectPeople() {
+        return subjectPeople;
     }
 
-    public void setSubjectsPeople(String subjectsPeople) {
-        this.subjectsPeople = subjectsPeople;
+    public void setSubjectPeople(String subjectPeople) {
+        this.subjectPeople = subjectPeople;
     }
 
     public String getSubjectTimes() {
@@ -85,16 +86,24 @@ public class Book {
         this.subjectTimes = subjectTimes;
     }
 
+    public String getBookAuthorName() {
+        return bookAuthorName;
+    }
+
+    public void setBookAuthorName(String bookAuthorName) {
+        this.bookAuthorName = bookAuthorName;
+    }
+    
     @Override
     public int hashCode() {
         int hash = 5;
         hash = 73 * hash + this.bookId;
         hash = 73 * hash + Objects.hashCode(this.description);
         hash = 73 * hash + Objects.hashCode(this.title);
-        hash = 73 * hash + Objects.hashCode(this.covers);
+        hash = 73 * hash + Objects.hashCode(this.cover);
         hash = 73 * hash + Objects.hashCode(this.subjects);
         hash = 73 * hash + Objects.hashCode(this.subjectPlaces);
-        hash = 73 * hash + Objects.hashCode(this.subjectsPeople);
+        hash = 73 * hash + Objects.hashCode(this.subjectPeople);
         hash = 73 * hash + Objects.hashCode(this.subjectTimes);
         return hash;
     }
@@ -120,7 +129,7 @@ public class Book {
         if (!Objects.equals(this.title, other.title)) {
             return false;
         }
-        if (!Objects.equals(this.covers, other.covers)) {
+        if (!Objects.equals(this.cover, other.cover)) {
             return false;
         }
         if (!Objects.equals(this.subjects, other.subjects)) {
@@ -129,7 +138,7 @@ public class Book {
         if (!Objects.equals(this.subjectPlaces, other.subjectPlaces)) {
             return false;
         }
-        if (!Objects.equals(this.subjectsPeople, other.subjectsPeople)) {
+        if (!Objects.equals(this.subjectPeople, other.subjectPeople)) {
             return false;
         }
         if (!Objects.equals(this.subjectTimes, other.subjectTimes)) {

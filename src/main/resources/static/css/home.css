@@ -1,0 +1,37 @@
+label {
+  text-align: center;
+  font-size: 20px;
+}
+
+h1 {
+  margin: 25px 10px 10px 10px;
+}
+
+p {
+  font-size: 150%;
+}
+
+th {
+  font-size: 150%;
+}
+
+td {
+  font-size: 150%;
+  background-color: black;
+}
+
+#searchField {
+  font-size: 150%;
+  width: 80%;
+  float: left;
+}
+
+#searchBtn {
+  font-size: 150%;
+  padding: 0px;
+  float: right;
+}
+
+#tableTitle {
+  margin-top: 70px;
+}

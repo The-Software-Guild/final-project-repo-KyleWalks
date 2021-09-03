@@ -9,12 +9,14 @@ import com.sg.bookkeeper.dto.Author;
 import com.sg.bookkeeper.dto.Book;
 import java.util.ArrayList;
 import java.util.List;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 /**
  *
  * @author Cosmos
  */
+@Profile("memory")
 @Repository
 public class BookkeeperInMemoryDao implements BookkeeperDao {
     private static final List<Author> authors = new ArrayList<>();

@@ -14,6 +14,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
+import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -36,7 +37,7 @@ public class BookkeeperDatabaseDao implements BookkeeperDao {
     
     @Override
     public Author addAuthor(Author author) {
-        final String sql = "INSERT INTO author(birthDate,authorLink,bio,alternateNames) VALUES(?,?,?,?);";
+        final String sql = "INSERT INTO author(authorName,birthDate,authorLink,bio,alternateNames) VALUES(?,?,?,?,?);";
         GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();
 
         jdbcTemplate.update((Connection conn) -> {
@@ -45,10 +46,11 @@ public class BookkeeperDatabaseDao implements BookkeeperDao {
                 sql, 
                 Statement.RETURN_GENERATED_KEYS);
 
-            statement.setDate(1, Date.valueOf(author.getBirthdate()));
-            statement.setString(2, author.getAuthorLink());
-            statement.setString(3, author.getBio());
-            statement.setString(4, author.getAlternateNames());
+            statement.setString(1, author.getAuthorName());
+            statement.setDate(2, Date.valueOf(author.getBirthdate()));
+            statement.setString(3, author.getAuthorLink());
+            statement.setString(4, author.getBio());
+            statement.setString(5, author.getAlternateNames());
             return statement;
 
         }, keyHolder);
@@ -60,7 +62,7 @@ public class BookkeeperDatabaseDao implements BookkeeperDao {
 
     @Override
     public Book addBook(Book book) {
-        final String sql = "INSERT INTO book(description,title,covers,subjects,subjectPlaces,subjectsPeople,subjectTimes) VALUES(?,?,?,?,?,?,?,?);";
+        final String sql = "INSERT INTO book(description,title,cover,subjects,subjectPlaces,subjectPeople,subjectTimes,bookAuthorName) VALUES(?,?,?,?,?,?,?,?);";
         GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();
 
         jdbcTemplate.update((Connection conn) -> {
@@ -71,11 +73,12 @@ public class BookkeeperDatabaseDao implements BookkeeperDao {
 
             statement.setString(1, book.getDescription());
             statement.setString(2, book.getTitle());
-            statement.setString(3, book.getCovers());
+            statement.setString(3, book.getCover());
             statement.setString(4, book.getSubjects());
             statement.setString(5, book.getSubjectPlaces());
-            statement.setString(6, book.getSubjectsPeople());
+            statement.setString(6, book.getSubjectPeople());
             statement.setString(7, book.getSubjectTimes());
+            statement.setString(8, book.getBookAuthorName());
             return statement;
 
         }, keyHolder);
@@ -116,11 +119,11 @@ public class BookkeeperDatabaseDao implements BookkeeperDao {
     @Override
     public void updateAuthor(Author author) {
         final String sql = "UPDATE author "
-                + "SET birthdate = ?, authorLink = ?, "
+                + "SET authorName = ?, birthdate = ?, authorLink = ?, "
                 + "bio = ?, alternateNames "
                 + "WHERE authorId = ?;";
 
-        jdbcTemplate.update(sql, Date.valueOf(author.getBirthdate()), 
+        jdbcTemplate.update(sql, author.getAuthorName(), Date.valueOf(author.getBirthdate()), 
                 author.getAuthorLink(),author.getBio(), 
                 author.getAlternateNames(), author.getAuthorId());
     }
@@ -128,12 +131,12 @@ public class BookkeeperDatabaseDao implements BookkeeperDao {
     @Override
     public void updateBook(Book book) {
         final String sql = "UPDATE book "
-                + "SET description = ?, title = ?, covers = ?, subjects = ?, "
-                + "subjectPlaces = ?, subjectPeople = ?, subjectTimes = ? "
+                + "SET description = ?, title = ?, cover = ?, subjects = ?, "
+                + "subjectPlaces = ?, subjectPeople = ?, subjectTimes = ?, bookAuthorName = ? "
                 + "WHERE bookId = ?;";
 
         jdbcTemplate.update(sql, book.getDescription(), book.getTitle(), 
-                book.getSubjects(), book.getSubjectPlaces(), book.getSubjectsPeople(), 
+                book.getSubjects(), book.getSubjectPlaces(), book.getSubjectPeople(), 
                 book.getSubjectTimes(), book.getBookId());
     }
 
@@ -160,6 +163,7 @@ public class BookkeeperDatabaseDao implements BookkeeperDao {
             Author author = new Author();
             
             author.setAuthorId(rs.getInt("authorId"));
+            author.setAuthorName(rs.getString("authorName"));
             author.setBirthdate(rs.getDate("birthdate").toLocalDate());
             author.setAuthorLink(rs.getString("authorLink"));
             author.setBio(rs.getString("bio"));
@@ -175,14 +179,15 @@ public class BookkeeperDatabaseDao implements BookkeeperDao {
         public Book mapRow(ResultSet rs, int index) throws SQLException {
             Book book = new Book();
             
-            book.setBookId(rs.getInt("authorId"));
+            book.setBookId(rs.getInt("bookId"));
             book.setDescription(rs.getString("description"));
             book.setTitle(rs.getString("title"));
-            book.setCovers(rs.getString("covers"));
+            book.setCover(rs.getString("cover"));
             book.setSubjects(rs.getString("subjects"));
             book.setSubjectPlaces(rs.getString("subjectPlaces"));
-            book.setSubjectsPeople(rs.getString("subjectPeople"));
+            book.setSubjectPeople(rs.getString("subjectPeople"));
             book.setSubjectTimes(rs.getString("subjectTimes"));
+            book.setBookAuthorName(rs.getString("bookAuthorName"));
             
             return book;
         }
