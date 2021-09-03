@@ -9,14 +9,19 @@ $(document).ready(function() {
     
     let queryUrl = "https://openlibrary.org/authors/" + authorKey;
     $.getJSON(queryUrl).done(function(jsonObj) {
-        populatePageBook(jsonObj);
+        populatePageAuthor(jsonObj);
     });
 });
 
-function populatePageBook(authorJson) {
+function populatePageAuthor(authorJson) {
+    console.log(authorJson);
+    if (!Object.keys(authorJson).includes("birth_date")) {
+        alert("No details found.");
+        window.location = "/home";
+    }
     // Cover image
     let coverImgId = authorJson["photos"][0];
-
+    
     coverImgId = coverImgId + "-M.jpg";
     let coverUrl = "http://covers.openlibrary.org/a/id/" + coverImgId;
 
@@ -30,6 +35,12 @@ function populatePageBook(authorJson) {
     $("#nameVal").val(authorJson["name"]);
     // Description
     let bio = authorJson["bio"]["value"];
+    if (bio === undefined)
+        bio = authorJson["bio"];
+    if (bio.includes("[1]"))
+        bio = bio.substring(0, bio.indexOf("[1]"));
+    if (bio.includes("([Sour"))
+        bio = bio.substring(0, bio.indexOf("([Sour"));
     
     $("#bio").text(bio);
     $("#bioVal").val(bio);
@@ -39,7 +50,12 @@ function populatePageBook(authorJson) {
     $("#birthDate").text(birthdate);
     $("#birthdateVal").val(birthdate);
 
-    let authorLink = authorJson["links"][0]["url"];
+    let authorLink = "";
+    if(Object.keys(authorJson).includes("links"))
+        authorLink = authorJson["links"][0]["url"];
+    else
+        authorLink = authorJson["wikipedia"];
+    
     $("#authorLink").text(authorLink);
     $("#authorLink").attr("href", authorLink);
     $("#authorLinkVal").val(authorLink);

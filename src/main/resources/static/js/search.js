@@ -12,6 +12,7 @@ function getBook() {
         if (matches === 0) {
             
         } else {
+            console.log(response);
             $("#searchTable").css("display", "");
             var bookTitle = response["docs"][0]["text"][1];
             var bookKey = response["docs"][0]["key"];
@@ -95,5 +96,5 @@ function bookAdd(val) {
 function authorAdd(val) {
     var $name = $(val).closest("tr").find(".bookTitle").text();
     var $key = $(val).closest("tr").find(".bookKey").text();
-    window.location = "/author-view??authorKey=" + $key;
+    window.location = "/author-view?authorKey=" + $key;
 }

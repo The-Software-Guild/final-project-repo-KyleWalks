@@ -23,24 +23,30 @@ $(document).ready(function() {
 
 function populatePageBook(bookJson) {
     console.log(bookJson);
+    if (!Object.keys(bookJson).includes("description")) {
+        alert("No details found.");
+        window.location = "/home";
+    }
     // Cover image
-    let covers = bookJson["covers"].length;
-    let count = 5;
-    for (let i = 0; (i < covers) && (i < count); i++) {
-        let coverImgId = bookJson["covers"][i];
-        
-        if (coverImgId === -1) {
-            count++;
-            continue;
+    if (Object.keys(bookJson).includes("covers")) {
+        let covers = bookJson["covers"].length;
+        let count = 5;
+        for (let i = 0; (i < covers) && (i < count); i++) {
+            let coverImgId = bookJson["covers"][i];
+
+            if (coverImgId === -1) {
+                count++;
+                continue;
+            }
+
+            coverImgId = coverImgId + "-M.jpg";
+            let coverUrl = "http://covers.openlibrary.org/b/id/" + coverImgId;
+
+            let img = document.createElement('img');
+            img.src = coverUrl;
+
+            document.getElementById("images").appendChild(img);
         }
-        
-        coverImgId = coverImgId + "-M.jpg";
-        let coverUrl = "http://covers.openlibrary.org/b/id/" + coverImgId;
-        
-        let img = document.createElement('img');
-        img.src = coverUrl;
-        
-        document.getElementById("images").appendChild(img);
     }
     
     // Title
@@ -48,17 +54,12 @@ function populatePageBook(bookJson) {
     $("#titleVal").val(bookJson["title"]);
     // Description
     let desc = bookJson["description"]["value"];
-
-    if (desc === undefined)
+    if (desc === "" || desc === undefined)
         desc = bookJson["description"];
     if (desc.includes("---"))
         desc = desc.substring(0, desc.indexOf("---"));
     else if (desc.includes("([source"))
         desc = desc.substring(0, desc.indexOf("([source"));
-    
-    console.log(desc.indexOf("([source"));
-    console.log(desc.substring(0, desc.indexOf("([source")));
-    console.log(desc);
     
     $("#bookDesc").text(desc);
     $("#descVal").val(desc);

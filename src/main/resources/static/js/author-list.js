@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    $("#website").attr("href", $("#website").text());
+    //$("#website").attr("href", $("#website").text());
 });
 
 function viewAuthor(val) {

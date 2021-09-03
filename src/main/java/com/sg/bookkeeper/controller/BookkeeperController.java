@@ -88,6 +88,8 @@ public class BookkeeperController {
     public String deleteBook(@RequestParam("bookId") int bookId, Model model) {        
         service.deleteBookById(bookId);
         
+        model.addAttribute("books", service.getAllBooks());
+        
         return "book-list";
     }
     
@@ -127,8 +129,10 @@ public class BookkeeperController {
     }
     
     @RequestMapping(value="delete-author", method={RequestMethod.GET, RequestMethod.POST})
-    public String deleteAuthor(@RequestParam("authorId") int authorId, Model model) {        
+    public String deleteAuthor(@RequestParam("authorId") int authorId, Model model) {
         service.deleteAuthorById(authorId);
+        
+        model.addAttribute("authors", service.getAllAuthors());
         
         return "author-list";
     }
